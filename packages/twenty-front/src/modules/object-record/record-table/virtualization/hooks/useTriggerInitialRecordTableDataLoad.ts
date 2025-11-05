@@ -160,7 +160,6 @@ export const useTriggerInitialRecordTableDataLoad = () => {
 
           const { records: findManyRecords, totalCount: findManyTotalCount } =
             await findManyRecordsLazy();
-
           records = findManyRecords;
           totalCount = findManyTotalCount;
         }

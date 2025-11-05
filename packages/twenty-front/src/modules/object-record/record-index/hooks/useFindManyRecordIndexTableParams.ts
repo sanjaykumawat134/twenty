@@ -2,6 +2,7 @@ import { useObjectMetadataItem } from '@/object-metadata/hooks/useObjectMetadata
 import { turnSortsIntoOrderBy } from '@/object-record/object-sort-dropdown/utils/turnSortsIntoOrderBy';
 import { currentRecordFilterGroupsComponentState } from '@/object-record/record-filter-group/states/currentRecordFilterGroupsComponentState';
 import { useFilterValueDependencies } from '@/object-record/record-filter/hooks/useFilterValueDependencies';
+import { useTaskSecurityFilter } from '@/object-record/record-filter/hooks/useTaskSecurityFilter';
 import { anyFieldFilterValueComponentState } from '@/object-record/record-filter/states/anyFieldFilterValueComponentState';
 import { currentRecordFiltersComponentState } from '@/object-record/record-filter/states/currentRecordFiltersComponentState';
 import { useCurrentRecordGroupDefinition } from '@/object-record/record-group/hooks/useCurrentRecordGroupDefinition';
@@ -24,6 +25,7 @@ export const useFindManyRecordIndexTableParams = (
     objectMetadataItem?.fields,
   );
 
+  const taskSecurityFilter = useTaskSecurityFilter(objectNameSingular);
   const currentRecordGroupDefinition = useCurrentRecordGroupDefinition();
 
   const currentRecordFilterGroups = useRecoilComponentValue(
@@ -58,10 +60,14 @@ export const useFindManyRecordIndexTableParams = (
     });
 
   const orderBy = turnSortsIntoOrderBy(objectMetadataItem, currentRecordSorts);
-
   return {
     objectNameSingular,
-    filter: combineFilters([currentFilters, recordGroupFilter, anyFieldFilter]),
+    filter: combineFilters([
+      currentFilters,
+      recordGroupFilter,
+      anyFieldFilter,
+      taskSecurityFilter,
+    ]),
     orderBy,
     // If we have a current record group definition, we only want to fetch 8 records by page
     ...(currentRecordGroupDefinition ? { limit: 8 } : {}),

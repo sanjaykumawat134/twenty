@@ -13,7 +13,6 @@ export const useRecordIndexTableFetchMore = (objectNameSingular: string) => {
   const recordGqlFields = useRecordsFieldVisibleGqlFields({
     objectMetadataItem,
   });
-
   const { fetchMoreRecordsLazy, queryIdentifier, findManyRecordsLazy } =
     useLazyFindManyRecords({
       ...params,

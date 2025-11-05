@@ -2,6 +2,7 @@ import { useContextStoreObjectMetadataItemOrThrow } from '@/context-store/hooks/
 import { useAggregateRecords } from '@/object-record/hooks/useAggregateRecords';
 import { currentRecordFilterGroupsComponentState } from '@/object-record/record-filter-group/states/currentRecordFilterGroupsComponentState';
 import { useFilterValueDependencies } from '@/object-record/record-filter/hooks/useFilterValueDependencies';
+import { useTaskSecurityFilter } from '@/object-record/record-filter/hooks/useTaskSecurityFilter';
 import { anyFieldFilterValueComponentState } from '@/object-record/record-filter/states/anyFieldFilterValueComponentState';
 import { currentRecordFiltersComponentState } from '@/object-record/record-filter/states/currentRecordFiltersComponentState';
 import { AggregateOperations } from '@/object-record/record-table/constants/AggregateOperations';
@@ -43,12 +44,14 @@ export const useGetRecordIndexTotalCount = () => {
       fields: objectMetadataItem.fields,
       filterValue: anyFieldFilterValue,
     });
-
+  const taskSecurityFilter = useTaskSecurityFilter(
+    objectMetadataItem.nameSingular,
+  );
   const { data, loading } = useAggregateRecords<{
     id: { COUNT: number };
   }>({
     objectNameSingular: objectMetadataItem.nameSingular,
-    filter: { ...filter, ...anyFieldFilter },
+    filter: { ...filter, ...anyFieldFilter, ...taskSecurityFilter },
     recordGqlFieldsAggregate: {
       id: [AggregateOperations.COUNT],
     },
