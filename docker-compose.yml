@@ -1,6 +1,6 @@
 services:
   server:
-    image: twentycrm/twenty:${TAG:-latest}
+    image: twentycrm/twenty:v1
     volumes:
       - server-local-data:/app/packages/twenty-server/.local-storage
     ports:
