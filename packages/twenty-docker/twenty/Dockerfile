@@ -27,7 +27,11 @@ FROM common-deps AS twenty-server-build
 COPY ./packages/twenty-emails /app/packages/twenty-emails
 COPY ./packages/twenty-shared /app/packages/twenty-shared
 COPY ./packages/twenty-server /app/packages/twenty-server
-
+# Fix ENOSPC error inside container
+RUN echo fs.inotify.max_user_watches=524288 >> /etc/sysctl.conf && \
+    echo fs.inotify.max_user_instances=8192 >> /etc/sysctl.conf && \
+    sysctl -p
+    
 RUN npx nx run twenty-server:build
 
 RUN yarn workspaces focus --production twenty-emails twenty-shared twenty-server
