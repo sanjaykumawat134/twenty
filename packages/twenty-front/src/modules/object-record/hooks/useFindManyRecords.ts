@@ -17,6 +17,7 @@ import { getQueryIdentifier } from '@/object-record/utils/getQueryIdentifier';
 
 import { QUERY_DEFAULT_LIMIT_RECORDS } from 'twenty-shared/constants';
 import { type RecordGqlOperationFilter } from 'twenty-shared/types';
+import { useTaskSecurityFilter } from '../record-filter/hooks/useTaskSecurityFilter';
 
 export type UseFindManyRecordsParams<T> = ObjectMetadataItemIdentifier &
   RecordGqlOperationVariables & {
@@ -65,10 +66,10 @@ export const useFindManyRecords = <T extends ObjectRecord = ObjectRecord>({
         and: [...(filter ? [filter] : []), softDeleteFilter],
       }
     : filter;
-
+  const securityFilter = useTaskSecurityFilter(objectNameSingular);
   const queryIdentifier = getQueryIdentifier({
     objectNameSingular,
-    filter: withSoftDeleteFilter,
+    filter: { ...withSoftDeleteFilter, ...securityFilter },
     orderBy,
     limit,
   });
@@ -89,7 +90,7 @@ export const useFindManyRecords = <T extends ObjectRecord = ObjectRecord>({
     useQuery<RecordGqlOperationFindManyResult>(findManyRecordsQuery, {
       skip: skip || !objectMetadataItem || !hasReadPermission,
       variables: {
-        filter: withSoftDeleteFilter,
+        filter: { ...withSoftDeleteFilter, ...securityFilter },
         orderBy,
         lastCursor: cursorFilter?.cursor ?? undefined,
         limit,
@@ -103,7 +104,7 @@ export const useFindManyRecords = <T extends ObjectRecord = ObjectRecord>({
   const { fetchMoreRecords, records, hasNextPage } =
     useFetchMoreRecordsWithPagination<T>({
       objectNameSingular,
-      filter: withSoftDeleteFilter,
+      filter: { ...withSoftDeleteFilter, ...securityFilter },
       orderBy,
       limit,
       fetchMore,

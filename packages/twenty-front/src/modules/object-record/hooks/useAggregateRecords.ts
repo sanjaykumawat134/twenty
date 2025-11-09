@@ -10,6 +10,7 @@ import { type ExtendedAggregateOperations } from '@/object-record/record-table/t
 import isEmpty from 'lodash.isempty';
 import { type RecordGqlOperationFilter } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
+import { useTaskSecurityFilter } from '../record-filter/hooks/useTaskSecurityFilter';
 
 export type AggregateRecordsData = {
   [fieldName: string]: {
@@ -31,7 +32,7 @@ export const useAggregateRecords = <T extends AggregateRecordsData>({
   const { objectMetadataItem } = useObjectMetadataItem({
     objectNameSingular,
   });
-
+  const securityFilter = useTaskSecurityFilter(objectNameSingular);
   const apolloCoreClient = useApolloCoreClient();
 
   const { aggregateQuery, gqlFieldToFieldMap } = useAggregateRecordsQuery({
@@ -44,13 +45,12 @@ export const useAggregateRecords = <T extends AggregateRecordsData>({
   );
 
   const hasReadPermission = objectPermissions.canReadObjectRecords;
-
   const { data, loading, error } = useQuery<RecordGqlOperationFindManyResult>(
     aggregateQuery,
     {
       skip: skip || !objectMetadataItem || !hasReadPermission,
       variables: {
-        filter,
+        filter: { ...filter, ...securityFilter },
       },
       client: apolloCoreClient,
     },
