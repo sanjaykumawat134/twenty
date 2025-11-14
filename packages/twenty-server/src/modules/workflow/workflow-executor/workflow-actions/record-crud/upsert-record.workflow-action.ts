@@ -74,9 +74,10 @@ export class UpsertRecordWorkflowAction implements WorkflowAction {
     const toolOutput = await this.upsertRecordService.execute({
       objectName: workflowActionInput.objectName,
       objectRecord: workflowActionInput.objectRecord,
-      fieldsToUpdate: workflowActionInput.fieldsToUpdate,
       workspaceId,
       rolePermissionConfig: executionContext.rolePermissionConfig,
+      userWorkspaceId: executionContext.userWorkspaceId,
+      createdBy: executionContext.initiator,
     });
 
     if (!toolOutput.success) {

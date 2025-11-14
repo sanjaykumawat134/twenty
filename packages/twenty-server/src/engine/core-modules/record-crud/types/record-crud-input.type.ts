@@ -35,7 +35,7 @@ export type FindRecordsInput = {
   orderBy?: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     recordSorts?: any;
-    gqlOperationOrderBy?: Partial<ObjectRecordOrderBy>;
+    gqlOperationOrderBy?: ObjectRecordOrderBy;
   };
   limit?: number;
 };
@@ -43,5 +43,4 @@ export type FindRecordsInput = {
 export type UpsertRecordInput = {
   objectName: string;
   objectRecord: ObjectRecordProperties;
-  fieldsToUpdate?: string[];
 };

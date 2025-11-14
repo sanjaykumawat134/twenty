@@ -14,16 +14,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"Hello world@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "Hello world@workspace:."
-  dependencies:
-    "@types/node": "npm:^24.7.2"
-    axios: "npm:^1.12.2"
-    twenty-sdk: "npm:^0.0.2"
-  languageName: unknown
-  linkType: soft
-
 "async-function@npm:^1.0.0":
   version: 1.0.0
   resolution: "async-function@npm:1.0.0"
@@ -228,6 +218,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hello-world@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "hello-world@workspace:."
+  dependencies:
+    "@types/node": "npm:^24.7.2"
+    axios: "npm:^1.12.2"
+    twenty-sdk: "npm:^0.0.4"
+  languageName: unknown
+  linkType: soft
+
 "math-intrinsics@npm:^1.1.0":
   version: 1.1.0
   resolution: "math-intrinsics@npm:1.1.0"
@@ -258,10 +258,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"twenty-sdk@npm:^0.0.2":
-  version: 0.0.2
-  resolution: "twenty-sdk@npm:0.0.2"
-  checksum: 10c0/99e6fe86059d847b548c1f03e0f0c59a4d540caf1d28dd4500f1f5f0094196985ded955801274de9e72ff03e3d1f41e9a509b4c2c5a02ffc8a027277b1e35d8e
+"twenty-sdk@npm:^0.0.4":
+  version: 0.0.4
+  resolution: "twenty-sdk@npm:0.0.4"
+  checksum: 10c0/550f1d85bf0701396c9dd2d4c6bc55ba1b067fce13636f8540eec60ab6a4257c6d7cd86cb3f62e0974bf99467bc31270d92b17b9681a1b7a6281b7ef97224080
   languageName: node
   linkType: hard
 

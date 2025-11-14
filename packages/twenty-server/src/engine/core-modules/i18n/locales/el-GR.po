@@ -166,6 +166,11 @@ msgstr "Απαιτείται δράση για την αποτροπή διαγ�
 msgid "Action Needed to Reset Password"
 msgstr "Απαιτείται δράση για να γίνει επαναφορά κωδικού πρόσβασης"
 
+#. js-lingui-id: 8Q5bRY
+#: src/engine/core-modules/auth/services/reset-password.service.ts
+msgid "Action Needed to Set Password"
+msgstr "Απαιτείται δράση για να οριστεί ο κωδικός πρόσβασης"
+
 #. js-lingui-id: 52fA3U
 #: src/engine/workspace-manager/workspace-migration-v2/workspace-migration-builder-v2/validators/services/flat-field-metadata-validator.service.ts
 msgid "Active fields cannot be deleted"
@@ -628,7 +633,7 @@ msgstr "Δεν μπορεί να υπάρχει περισσότερη από μ
 #. js-lingui-id: PjZIyI
 #: src/modules/messaging/message-channel-manager/query-hooks/message-channel-update-one.pre-query.hook.ts
 msgid "Cannot update message channel while sync is ongoing. Please wait for the sync to complete."
-msgstr ""
+msgstr "Δεν είναι δυνατή η ενημέρωση του καναλιού μηνυμάτων ενώ ο συγχρονισμός είναι σε εξέλιξη. Παρακαλώ περιμένετε να ολοκληρωθεί ο συγχρονισμός."
 
 #. js-lingui-id: 4DKo3U
 #: src/modules/workflow/common/workspace-services/workflow-version-validation.workspace-service.ts
@@ -989,10 +994,20 @@ msgstr "Ημερομηνία Λήξης"
 msgid "Duplicated option {field}"
 msgstr "Διπλή επιλογή {field}"
 
+#. js-lingui-id: AcnTuz
+#: src/engine/core-modules/user/services/user.service.ts
+msgid "Email already in use"
+msgstr ""
+
 #. js-lingui-id: BBXuRb
 #: src/engine/core-modules/email-verification/email-verification-exception-filter.util.ts
 msgid "Email already verified."
 msgstr "Το email έχει ήδη επιβεβαιωθεί."
+
+#. js-lingui-id: LT5dFi
+#: src/engine/core-modules/user/services/user.service.ts
+msgid "Email can only be updated when you belong to a single workspace."
+msgstr ""
 
 #. js-lingui-id: xw6iqb
 #: src/engine/core-modules/auth/utils/auth-graphql-api-exception-handler.util.ts
@@ -1422,11 +1437,6 @@ msgstr "Δεν βρέθηκε πεδίο για ενημέρωση"
 msgid "Field used for full-text search"
 msgstr "Πεδίο χρησιμοποιούμενο για πλήρη κειμενική αναζήτηση"
 
-#. js-lingui-id: s3HtdT
-#: src/engine/metadata-modules/view-sort/exceptions/view-sort.exception.ts
-msgid "FieldMetadataId is required"
-msgstr "Απαιτείται FieldMetadataId"
-
 #. js-lingui-id: Sof2+k
 #: src/engine/metadata-modules/view-field/exceptions/view-field.exception.ts
 msgid "FieldMetadataId is required to create a view field."
@@ -1695,16 +1705,6 @@ msgstr "Μη έγκυρο uuid {id}"
 msgid "Invalid verification code. Please try again."
 msgstr "Μη έγκυρος κωδικός επαλήθευσης. Παρακαλώ προσπαθήστε ξανά."
 
-#. js-lingui-id: 8xkULN
-#: src/engine/metadata-modules/view-sort/exceptions/view-sort.exception.ts
-msgid "Invalid view sort data"
-msgstr "Μη έγκυρα δεδομένα ταξινόμησης προβολής"
-
-#. js-lingui-id: I0OzaR
-#: src/engine/metadata-modules/view-sort/exceptions/view-sort.exception.ts
-msgid "Invalid view sort data for view sort id: {id}"
-msgstr "Μη έγκυρα δεδομένα ταξινόμησης προβολής για το αναγνωριστικό ταξινόμησης προβολής: {id}"
-
 #. js-lingui-id: grHYXZ
 #: src/modules/calendar/common/standard-objects/calendar-event.workspace-entity.ts
 #: src/modules/calendar/common/standard-objects/calendar-event.workspace-entity.ts
@@ -1843,6 +1843,12 @@ msgstr "Η ετικέτα δεν πρέπει να περιέχει κόμμα"
 msgid "Language"
 msgstr "Γλώσσα"
 
+#. js-lingui-id: hHtzNQ
+#: src/modules/connected-account/standard-objects/connected-account.workspace-entity.ts
+#: src/modules/connected-account/standard-objects/connected-account.workspace-entity.ts
+msgid "Last credentials refreshed at"
+msgstr "Τα διαπιστευτήρια ανανεώθηκαν τελευταία φορά στις"
+
 #. js-lingui-id: WvYp6o
 #: src/modules/workflow/common/standard-objects/workflow.workspace-entity.ts
 msgid "Last published Version Id"
@@ -1918,7 +1924,7 @@ msgid "March"
 msgstr "Μάρτιος"
 
 #. js-lingui-id: hw7Mwk
-#: src/engine/api/graphql/graphql-query-runner/resolvers/graphql-query-create-many-resolver.service.ts
+#: src/engine/api/common/common-query-runners/common-create-many-query-runner/common-create-many-query-runner.service.ts
 msgid "Maximum number of records to upsert is {QUERY_MAX_RECORDS}."
 msgstr "Ο μέγιστος αριθμός εγγραφών για καταχώρηση είναι {QUERY_MAX_RECORDS}."
 
@@ -1972,7 +1978,7 @@ msgstr "Συσχετίσεις Μηνυμάτων Καναλιού Μηνυμά�
 #. js-lingui-id: LOU3x5
 #: src/modules/messaging/message-channel-manager/query-hooks/message-channel-update-one.pre-query.hook.ts
 msgid "Message channel not found"
-msgstr ""
+msgstr "Δεν βρέθηκε το κανάλι μηνυμάτων"
 
 #. js-lingui-id: k7LXPQ
 #: src/modules/messaging/common/standard-objects/message-channel.workspace-entity.ts
@@ -2116,18 +2122,12 @@ msgstr "Τα φορτία δημιουργίας σχέσεων μορφής π�
 msgid "Morph relation creation payloads must only contain relation to the same object metadata"
 msgstr "Τα φορτία δημιουργίας σχέσεων μορφής πρέπει να περιέχουν μόνο σχέσεις με τα ίδια μεταδεδομένα αντικειμένου"
 
-#. js-lingui-id: DsdcRG
-#: src/engine/metadata-modules/flat-field-metadata/services/flat-field-metadata-type-validator.service.ts
-msgid "Morph relation fields are disabled for your workspace"
-msgstr "Τα πεδία σχέσης μορφής είναι απενεργοποιημένα για το χώρο εργασίας σας"
-
 #. js-lingui-id: Wu/pkS
 #: src/engine/metadata-modules/flat-field-metadata/validators/utils/validate-enum-flat-field-metadata.util.ts
 msgid "Multi-select field default value must be an array"
 msgstr "Η προεπιλεγμένη τιμή πεδίου πολλαπλής επιλογής πρέπει να είναι πίνακας"
 
 #. js-lingui-id: 6rLmLu
-#: src/engine/api/graphql/graphql-query-runner/resolvers/graphql-query-create-many-resolver.service.ts
 #: src/engine/api/common/common-query-runners/common-create-many-query-runner/utils/get-matching-record-id.util.ts
 msgid "Multiple records found with the same unique field values for {conflictingFieldsValues}. Cannot determine which record to update."
 msgstr "Βρέθηκαν πολλαπλές εγγραφές με τις ίδιες μοναδικές τιμές πεδίων για {conflictingFieldsValues}. Δεν είναι δυνατός ο προσδιορισμός της εγγραφής προς ενημέρωση."
@@ -2213,6 +2213,11 @@ msgstr "Το όνομα θα πρέπει να είναι σε camelCase"
 #: src/engine/metadata-modules/flat-object-metadata/validators/utils/validate-flat-object-metadata-name-and-labels.util.ts
 msgid "Names are not synced with labels"
 msgstr "Τα ονόματα δεν είναι συγχρονισμένα με τις ετικέτες"
+
+#. js-lingui-id: TYhxR+
+#: src/engine/core-modules/user/services/user.service.ts
+msgid "New email must be different from current email"
+msgstr ""
 
 #. js-lingui-id: hQQZse
 #: src/modules/workflow/workflow-trigger/utils/assert-version-can-be-activated.util.ts
@@ -2579,6 +2584,12 @@ msgstr "Απαιτούνται επιλογές για πεδία λίστας"
 msgid "Page Layout ID"
 msgstr "Αναγνωριστικό Διάταξης Σελίδας"
 
+#. js-lingui-id: G1fWNt
+#: src/modules/messaging/common/standard-objects/message-folder.workspace-entity.ts
+#: src/modules/messaging/common/standard-objects/message-folder.workspace-entity.ts
+msgid "Parent Folder ID"
+msgstr "ID Γονικού Φακέλου"
+
 #. js-lingui-id: wT0H4O
 #: src/engine/core-modules/auth/services/sign-in-up.service.ts
 msgid "Password too weak"
@@ -2587,22 +2598,22 @@ msgstr "Ο κωδικός πρόσβασης είναι πολύ αδύναμο�
 #. js-lingui-id: l6qKfi
 #: src/modules/messaging/common/standard-objects/message-folder.workspace-entity.ts
 msgid "Pending action for folder sync"
-msgstr ""
+msgstr "Εκκρεμής ενέργεια για συγχρονισμό φακέλου"
 
 #. js-lingui-id: ttZgHv
 #: src/modules/messaging/common/standard-objects/message-channel.workspace-entity.ts
 msgid "Pending action for group emails"
-msgstr ""
+msgstr "Εκκρεμής ενέργεια για ομαδικά emails"
 
 #. js-lingui-id: 5aGQev
 #: src/modules/messaging/common/standard-objects/message-channel.workspace-entity.ts
 msgid "Pending group emails action"
-msgstr ""
+msgstr "Εκκρεμής ενέργεια ομαδικών email"
 
 #. js-lingui-id: 6jM9pB
 #: src/modules/messaging/common/standard-objects/message-folder.workspace-entity.ts
 msgid "Pending Sync Action"
-msgstr ""
+msgstr "Εκκρεμής δράση συγχρονισμού"
 
 #. js-lingui-id: 1wdjme
 #: src/modules/person/standard-objects/person.workspace-entity.ts
@@ -2648,6 +2659,11 @@ msgstr "\\\\"
 #: src/engine/core-modules/imap-smtp-caldav-connection/services/imap-smtp-caldav-connection-validator.service.ts
 msgid "Please check your connection settings. Make sure the server host, port, and password are correct."
 msgstr "Παρακαλώ ελέγξτε τις ρυθμίσεις της σύνδεσής σας. Βεβαιωθείτε ότι ο διακομιστής, η θύρα και ο κωδικός πρόσβασης είναι σωστά."
+
+#. js-lingui-id: mqzu5F
+#: src/engine/core-modules/email-verification/services/email-verification.service.ts
+msgid "Please confirm your updated email"
+msgstr ""
 
 #. js-lingui-id: v0iiWr
 #: src/engine/core-modules/webhook/webhook.service.ts
@@ -2995,16 +3011,6 @@ msgstr "Θέμα"
 msgid "Sunday"
 msgstr "Κυριακή"
 
-#. js-lingui-id: VuvnTL
-#: src/modules/messaging/common/standard-objects/message-channel.workspace-entity.ts
-msgid "Sync all folders"
-msgstr ""
-
-#. js-lingui-id: 9PsZjo
-#: src/modules/messaging/common/standard-objects/message-channel.workspace-entity.ts
-msgid "Sync all folders including new ones"
-msgstr ""
-
 #. js-lingui-id: oyJYg7
 #: src/modules/messaging/common/standard-objects/message-folder.workspace-entity.ts
 #: src/modules/messaging/common/standard-objects/message-folder.workspace-entity.ts
@@ -3237,6 +3243,11 @@ msgstr "Ο προεπιλεγμένος ρόλος για αυτό το workspac
 #: src/modules/workflow/common/standard-objects/workflow-run.workspace-entity.ts
 msgid "The executor of the workflow"
 msgstr "Ο εκτελεστής του workflow"
+
+#. js-lingui-id: o6DGfJ
+#: src/engine/core-modules/workspace/services/workspace.service.ts
+msgid "The field \"{field}\" cannot be updated. Please contact your workspace administrator."
+msgstr "Το πεδίο \"{field}\" δεν μπορεί να ενημερωθεί. Παρακαλώ επικοινωνήστε με τον διαχειριστή του workspace σας."
 
 #. js-lingui-id: LdhPiK
 #: src/engine/metadata-modules/object-permission/field-permission/field-permission.service.ts
@@ -3571,6 +3582,12 @@ msgstr "Ηλεκτρονικό ταχυδρομείο χρήστη"
 msgid "User Id"
 msgstr "Αναγνωριστικό Χρήστη"
 
+#. js-lingui-id: pMOjQa
+#: src/engine/core-modules/auth/token/services/access-token.service.ts
+#: src/engine/core-modules/auth/services/auth.service.ts
+msgid "User is not a member of the workspace."
+msgstr "Ο χρήστης δεν αποτελεί μέρος του χώρου εργασίας."
+
 #. js-lingui-id: B43Kks
 #: src/engine/core-modules/auth/services/sign-in-up.service.ts
 msgid "User is not part of the workspace"
@@ -3807,16 +3824,6 @@ msgstr "Το μεταδεδομένο πεδίου συνολικής θέαση
 msgid "View not found"
 msgstr "Δεν βρέθηκε προβολή"
 
-#. js-lingui-id: znNExx
-#: src/engine/metadata-modules/view-sort/exceptions/view-sort.exception.ts
-msgid "View sort (id: {id}) not found"
-msgstr "Η ταξινόμηση προβολής (id: {id}) δεν βρέθηκε"
-
-#. js-lingui-id: 3zMs+f
-#: src/engine/metadata-modules/view-sort/exceptions/view-sort.exception.ts
-msgid "View sort not found"
-msgstr "Η ταξινόμηση προβολής δεν βρέθηκε"
-
 #. js-lingui-id: toB/08
 #: src/engine/metadata-modules/flat-view/utils/from-delete-view-input-to-flat-view-or-throw.util.ts
 msgid "View to delete not found"
@@ -3842,11 +3849,6 @@ msgstr "Προβολή με το ίδιο αναγνωριστικό υπάρχ�
 #: src/modules/favorite/standard-objects/favorite.workspace-entity.ts
 msgid "ViewId"
 msgstr "Προβολή Id"
-
-#. js-lingui-id: kpQRY2
-#: src/engine/metadata-modules/view-sort/exceptions/view-sort.exception.ts
-msgid "ViewId is required"
-msgstr "Το ViewId είναι απαραίτητο"
 
 #. js-lingui-id: l88nXn
 #: src/engine/metadata-modules/view-field/exceptions/view-field.exception.ts
@@ -4125,11 +4127,6 @@ msgstr "Θέση μέλους χώρου εργασίας"
 msgid "Workspace Members"
 msgstr "Μέλη Χώρου Εργασίας"
 
-#. js-lingui-id: bBr+RW
-#: src/engine/metadata-modules/view-sort/exceptions/view-sort.exception.ts
-msgid "WorkspaceId is required"
-msgstr "Το WorkspaceId είναι απαραίτητο"
-
 #. js-lingui-id: kjLpTn
 #: src/engine/metadata-modules/view-field/exceptions/view-field.exception.ts
 msgid "WorkspaceId is required to create a view field."
@@ -4205,24 +4202,34 @@ msgid "You cannot set permissions on system objects as they are managed by the p
 msgstr "Δεν μπορείτε να ορίσετε άδειες σε αντικείμενα συστήματος καθώς διαχειρίζονται από την πλατφόρμα."
 
 #. js-lingui-id: EFQeXU
-#: src/engine/guards/settings-permissions.guard.ts
+#: src/engine/guards/settings-permission.guard.ts
 msgid "You do not have permission to access this feature. Please contact your workspace administrator for access."
 msgstr "Δεν έχετε άδεια για πρόσβαση σε αυτή τη λειτουργία. Παρακαλώ επικοινωνήστε με τον διαχειριστή του workspace σας για πρόσβαση."
+
+#. js-lingui-id: P69VwK
+#: src/engine/core-modules/user/user.resolver.ts
+msgid "You do not have permission to delete this user from the workspace. Please contact your workspace administrator for access."
+msgstr "Δεν έχετε άδεια να διαγράψετε αυτόν τον χρήστη από το χώρο εργασίας. Παρακαλώ επικοινωνήστε με τον διαχειριστή του χώρου εργασίας σας για πρόσβαση."
 
 #. js-lingui-id: +2vVRB
 #: src/engine/guards/impersonate-permission.guard.ts
 msgid "You do not have permission to impersonate users. Please contact your workspace administrator for access."
 msgstr "Δεν έχετε δικαίωμα να προσωποποιήσετε χρήστες. Παρακαλώ επικοινωνήστε με τον διαχειριστή του workspace σας για πρόσβαση."
 
-#. js-lingui-id: k7P8yU
+#. js-lingui-id: 1dsy9v
 #: src/engine/core-modules/workspace/services/workspace.service.ts
-msgid "You do not have permission to manage security settings. Please contact your workspace administrator."
-msgstr "Δεν έχετε άδεια να διαχειριστείτε ρυθμίσεις ασφαλείας. Παρακαλώ επικοινωνήστε με τον διαχειριστή του workspace σας."
+msgid "You do not have permission to update these fields: {fieldsList}. Please contact your workspace administrator."
+msgstr "Δεν έχετε άδεια να ενημερώσετε αυτά τα πεδία: {fieldsList}. Παρακαλώ επικοινωνήστε με τον διαχειριστή του workspace σας."
 
-#. js-lingui-id: svchJc
-#: src/engine/core-modules/workspace/services/workspace.service.ts
-msgid "You do not have permission to manage workspace settings. Please contact your workspace administrator."
-msgstr "Δεν έχετε άδεια να διαχειριστείτε ρυθμίσεις του workspace. Παρακαλώ επικοινωνήστε με τον διαχειριστή του workspace σας."
+#. js-lingui-id: M1he8p
+#: src/engine/metadata-modules/view/exceptions/view.exception.ts
+msgid "You don't have permission to create workspace-level views."
+msgstr "Δεν έχετε άδεια να δημιουργήσετε προβολές σε επίπεδο workspace."
+
+#. js-lingui-id: QmL9y9
+#: src/engine/metadata-modules/view/exceptions/view.exception.ts
+msgid "You don't have permission to modify this view."
+msgstr "Δεν έχετε άδεια να τροποποιήσετε αυτή την προβολή."
 
 #. js-lingui-id: z+7x/s
 #: src/engine/core-modules/auth/utils/auth-graphql-api-exception-handler.util.ts

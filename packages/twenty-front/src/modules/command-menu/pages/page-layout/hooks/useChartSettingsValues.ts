@@ -3,6 +3,7 @@ import { useGraphXSortOptionLabels } from '@/command-menu/pages/page-layout/hook
 import { type ChartConfiguration } from '@/command-menu/pages/page-layout/types/ChartConfiguration';
 import { CHART_CONFIGURATION_SETTING_IDS } from '@/command-menu/pages/page-layout/types/ChartConfigurationSettingIds';
 import { getChartAxisNameDisplayOptions } from '@/command-menu/pages/page-layout/utils/getChartAxisNameDisplayOptions';
+import { getDateGranularityLabel } from '@/command-menu/pages/page-layout/utils/getDateGranularityLabel';
 import { getFieldLabelWithSubField } from '@/command-menu/pages/page-layout/utils/getFieldLabelWithSubField';
 import { objectMetadataItemsState } from '@/object-metadata/states/objectMetadataItemsState';
 import { getAggregateOperationLabel } from '@/object-record/record-board/record-board-column/utils/getAggregateOperationLabel';
@@ -158,8 +159,12 @@ export const useChartSettingsValues = ({
       case CHART_CONFIGURATION_SETTING_IDS.DATA_LABELS:
         return configuration.displayDataLabel ?? undefined;
       case CHART_CONFIGURATION_SETTING_IDS.STACKED_BARS:
-        return 'groupMode' in configuration
+        return configuration.__typename === 'BarChartConfiguration'
           ? configuration.groupMode !== 'GROUPED'
+          : true;
+      case CHART_CONFIGURATION_SETTING_IDS.STACKED_LINES:
+        return configuration.__typename === 'LineChartConfiguration'
+          ? configuration.isStacked !== false
           : true;
       case CHART_CONFIGURATION_SETTING_IDS.OMIT_NULL_VALUES:
         return 'omitNullValues' in configuration
@@ -173,6 +178,23 @@ export const useChartSettingsValues = ({
         return 'rangeMax' in configuration
           ? (configuration.rangeMax?.toString() ?? '')
           : '';
+      case CHART_CONFIGURATION_SETTING_IDS.DATE_GRANULARITY_X:
+        return 'primaryAxisDateGranularity' in configuration &&
+          isDefined(configuration.primaryAxisDateGranularity)
+          ? getDateGranularityLabel(configuration.primaryAxisDateGranularity)
+          : undefined;
+      case CHART_CONFIGURATION_SETTING_IDS.DATE_GRANULARITY_Y:
+        return 'secondaryAxisGroupByDateGranularity' in configuration &&
+          isDefined(configuration.secondaryAxisGroupByDateGranularity)
+          ? getDateGranularityLabel(
+              configuration.secondaryAxisGroupByDateGranularity,
+            )
+          : undefined;
+      case CHART_CONFIGURATION_SETTING_IDS.DATE_GRANULARITY:
+        return 'dateGranularity' in configuration &&
+          isDefined(configuration.dateGranularity)
+          ? getDateGranularityLabel(configuration.dateGranularity)
+          : undefined;
       default:
         return '';
     }

@@ -1,6 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 import {
+  IsArray,
   IsBoolean,
   IsInt,
   IsOptional,
@@ -67,6 +68,21 @@ export class UpdateWorkspaceInput {
   @IsOptional()
   isPasswordAuthEnabled?: boolean;
 
+  @Field({ nullable: true })
+  @IsBoolean()
+  @IsOptional()
+  isGoogleAuthBypassEnabled?: boolean;
+
+  @Field({ nullable: true })
+  @IsBoolean()
+  @IsOptional()
+  isMicrosoftAuthBypassEnabled?: boolean;
+
+  @Field({ nullable: true })
+  @IsBoolean()
+  @IsOptional()
+  isPasswordAuthBypassEnabled?: boolean;
+
   @Field(() => UUIDScalarType, { nullable: true })
   @IsUUID()
   @IsOptional()
@@ -87,4 +103,10 @@ export class UpdateWorkspaceInput {
   @IsString()
   @IsOptional()
   routerModel?: string;
+
+  @Field(() => [String], { nullable: true })
+  @IsArray()
+  @IsString({ each: true })
+  @IsOptional()
+  editableProfileFields?: string[];
 }

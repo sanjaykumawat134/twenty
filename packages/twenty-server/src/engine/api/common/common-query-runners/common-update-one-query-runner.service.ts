@@ -65,7 +65,7 @@ export class CommonUpdateOneQueryRunnerService extends CommonBaseQueryRunnerServ
     return {
       ...args,
       data: (
-        await this.queryRunnerArgsFactory.overrideDataByFieldMetadata({
+        await this.dataArgProcessor.process({
           partialRecordInputs: [args.data],
           authContext,
           objectMetadataItemWithFieldMaps,
@@ -77,11 +77,16 @@ export class CommonUpdateOneQueryRunnerService extends CommonBaseQueryRunnerServ
 
   async processQueryResult(
     queryResult: ObjectRecord,
-    _objectMetadataItemId: string,
-    _objectMetadataMaps: ObjectMetadataMaps,
-    _authContext: WorkspaceAuthContext,
+    objectMetadataItemId: string,
+    objectMetadataMaps: ObjectMetadataMaps,
+    authContext: WorkspaceAuthContext,
   ): Promise<ObjectRecord> {
-    return queryResult;
+    return this.commonResultGettersService.processRecord(
+      queryResult,
+      objectMetadataItemId,
+      objectMetadataMaps,
+      authContext.workspace.id,
+    );
   }
 
   async validate(

@@ -744,20 +744,6 @@ describe('should work as expected for the different field types', () => {
               or: [
                 {
                   phones: {
-                    primaryPhoneCallingCode: { is: 'NULL' },
-                  },
-                },
-                {
-                  phones: {
-                    primaryPhoneCallingCode: { ilike: '' },
-                  },
-                },
-              ],
-            },
-            {
-              or: [
-                {
-                  phones: {
                     additionalPhones: { is: 'NULL' },
                   },
                 },
@@ -783,20 +769,6 @@ describe('should work as expected for the different field types', () => {
                   {
                     phones: {
                       primaryPhoneNumber: { ilike: '' },
-                    },
-                  },
-                ],
-              },
-              {
-                or: [
-                  {
-                    phones: {
-                      primaryPhoneCallingCode: { is: 'NULL' },
-                    },
-                  },
-                  {
-                    phones: {
-                      primaryPhoneCallingCode: { ilike: '' },
                     },
                   },
                 ],
@@ -1108,12 +1080,12 @@ describe('should work as expected for the different field types', () => {
           and: [
             {
               createdAt: {
-                lte: '2024-09-17T23:59:59.999Z',
+                lte: '2024-09-17T20:46:59.999Z',
               },
             },
             {
               createdAt: {
-                gte: '2024-09-17T00:00:00.000Z',
+                gte: '2024-09-17T20:46:00.000Z',
               },
             },
           ],

@@ -1,5 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 
+import { isDefined } from 'twenty-shared/utils';
+
 import {
   MessageFolder,
   MessageFolderDriver,
@@ -7,7 +9,10 @@ import {
 
 import { OAuth2ClientManagerService } from 'src/modules/connected-account/oauth2-client-manager/services/oauth2-client-manager.service';
 import { type ConnectedAccountWorkspaceEntity } from 'src/modules/connected-account/standard-objects/connected-account.workspace-entity';
-import { MicrosoftHandleErrorService } from 'src/modules/messaging/message-import-manager/drivers/microsoft/services/microsoft-handle-error.service';
+import { MessageChannelWorkspaceEntity } from 'src/modules/messaging/common/standard-objects/message-channel.workspace-entity';
+import { shouldCreateFolderByDefault } from 'src/modules/messaging/message-folder-manager/utils/should-create-folder-by-default.util';
+import { shouldSyncFolderByDefault } from 'src/modules/messaging/message-folder-manager/utils/should-sync-folder-by-default.util';
+import { MicrosoftMessageListFetchErrorHandler } from 'src/modules/messaging/message-import-manager/drivers/microsoft/services/microsoft-message-list-fetch-error-handler.service';
 import { StandardFolder } from 'src/modules/messaging/message-import-manager/drivers/types/standard-folder';
 import { getStandardFolderByRegex } from 'src/modules/messaging/message-import-manager/drivers/utils/get-standard-folder-by-regex';
 
@@ -16,6 +21,7 @@ type MicrosoftGraphFolder = {
   displayName: string;
   childFolderCount?: number;
   parentFolderId?: string;
+  wellKnownName?: string;
 };
 
 const MESSAGING_MICROSOFT_MAIL_FOLDERS_LIST_MAX_RESULT = 999;
@@ -26,14 +32,17 @@ export class MicrosoftGetAllFoldersService implements MessageFolderDriver {
 
   constructor(
     private readonly oAuth2ClientManagerService: OAuth2ClientManagerService,
-
-    private readonly microsoftHandleErrorService: MicrosoftHandleErrorService,
+    private readonly microsoftMessageListFetchErrorHandler: MicrosoftMessageListFetchErrorHandler,
   ) {}
 
   async getAllMessageFolders(
     connectedAccount: Pick<
       ConnectedAccountWorkspaceEntity,
       'accessToken' | 'refreshToken' | 'id' | 'handle' | 'provider'
+    >,
+    messageChannel: Pick<
+      MessageChannelWorkspaceEntity,
+      'messageFolderImportPolicy'
     >,
   ): Promise<MessageFolder[]> {
     try {
@@ -51,14 +60,13 @@ export class MicrosoftGetAllFoldersService implements MessageFolderDriver {
           this.logger.error(
             `Connected account ${connectedAccount.id}: Error fetching folders: ${error.message}`,
           );
-          this.microsoftHandleErrorService.handleMicrosoftGetMessageListError(
-            error,
-          );
+          this.microsoftMessageListFetchErrorHandler.handleError(error);
 
           return { value: [] };
         });
 
       const folders = (response.value as MicrosoftGraphFolder[]) || [];
+      const rootFolderId = this.getRootFolderId(folders);
       const folderInfos: MessageFolder[] = [];
 
       for (const folder of folders) {
@@ -66,15 +74,28 @@ export class MicrosoftGetAllFoldersService implements MessageFolderDriver {
           continue;
         }
 
-        const standardFolder = getStandardFolderByRegex(folder.displayName);
+        const standardFolder = folder.wellKnownName
+          ? getStandardFolderByRegex(folder.wellKnownName)
+          : null;
+
+        if (!shouldCreateFolderByDefault(standardFolder)) {
+          continue;
+        }
+
         const isSentFolder = this.isSentFolder(standardFolder);
-        const isSynced = this.shouldSyncByDefault(standardFolder);
+        const isSynced = shouldSyncFolderByDefault(
+          messageChannel.messageFolderImportPolicy,
+        );
 
         folderInfos.push({
           externalId: folder.id,
           name: folder.displayName,
           isSynced,
           isSentFolder,
+          parentFolderId: this.getParentFolderId(
+            folder.parentFolderId,
+            rootFolderId,
+          ),
         });
       }
 
@@ -97,15 +118,33 @@ export class MicrosoftGetAllFoldersService implements MessageFolderDriver {
     return standardFolder === StandardFolder.SENT;
   }
 
-  private shouldSyncByDefault(standardFolder: StandardFolder | null): boolean {
-    if (
-      standardFolder === StandardFolder.JUNK ||
-      standardFolder === StandardFolder.DRAFTS ||
-      standardFolder === StandardFolder.TRASH
-    ) {
-      return false;
+  /*
+   * All Microsoft folders have a parentFolderId including the standard folders
+   * which point to root node which doesn't exits in the API response.
+   * We remove this to simplify the folder hierarchy on frontend.
+   */
+  private getRootFolderId(folders: MicrosoftGraphFolder[]): string | null {
+    for (const folder of folders) {
+      if (isDefined(folder.wellKnownName) && isDefined(folder.parentFolderId)) {
+        return folder.parentFolderId;
+      }
     }
 
-    return true;
+    return null;
+  }
+
+  private getParentFolderId(
+    parentFolderId: string | undefined,
+    rootFolderId: string | null,
+  ): string | null {
+    if (!isDefined(parentFolderId)) {
+      return null;
+    }
+
+    if (parentFolderId === rootFolderId) {
+      return null;
+    }
+
+    return parentFolderId;
   }
 }

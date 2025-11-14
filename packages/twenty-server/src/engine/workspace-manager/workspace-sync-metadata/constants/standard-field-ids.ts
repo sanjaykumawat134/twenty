@@ -149,6 +149,7 @@ export const CONNECTED_ACCOUNT_STANDARD_FIELD_IDS = {
   accountOwner: '20202020-3517-4896-afac-b1d0aa362af6',
   lastSyncHistoryId: '20202020-115c-4a87-b50f-ac4367a971b9',
   authFailedAt: '20202020-d268-4c6b-baff-400d402b430a',
+  lastCredentialsRefreshedAt: '20202020-aa5e-4e85-903b-fdf90a941941',
   messageChannels: '20202020-24f7-4362-8468-042204d1e445',
   calendarChannels: '20202020-af4a-47bb-99ec-51911c1d3977',
   handleAliases: '20202020-8a3d-46be-814f-6228af16c47b',
@@ -247,7 +248,6 @@ export const MESSAGE_CHANNEL_STANDARD_FIELD_IDS = {
   messageChannelMessageAssociations: '20202020-49b8-4766-88fd-75f1e21b3d5f',
   messageFolders: '20202020-cc39-4432-9fe8-ec8ab8bbed94',
   messageFolderImportPolicy: '20202020-cc39-4432-9fe8-ec8ab8bbed95',
-  syncAllFolders: '20202020-e36b-409c-a9bd-79071596cdc0',
   pendingGroupEmailsAction: '20202020-17c5-4e9f-bc50-af46a89fdd42',
   isSyncEnabled: '20202020-d9a6-48e9-990b-b97fdf22e8dd',
   syncCursor: '20202020-79d1-41cf-b738-bcf5ed61e256',
@@ -260,6 +260,7 @@ export const MESSAGE_CHANNEL_STANDARD_FIELD_IDS = {
 
 export const MESSAGE_FOLDER_STANDARD_FIELD_IDS = {
   name: '20202020-7cf8-40bc-a681-b80b771449b7',
+  parentFolderId: '20202020-e45d-49de-a4aa-587bbf9601f3',
   messageChannel: '20202020-b658-408f-bd46-3bd2d15d7e52',
   syncCursor: '20202020-98cd-49ed-8dfc-cb5796400e64',
   isSentFolder: '20202020-2af5-4a25-b2de-3c9386da941b',

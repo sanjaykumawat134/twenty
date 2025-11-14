@@ -11,6 +11,7 @@ import { useDuplicateStep } from '@/workflow/workflow-steps/hooks/useDuplicateSt
 import { useTheme } from '@emotion/react';
 import { useLingui } from '@lingui/react/macro';
 import { useId } from 'react';
+import { isDefined } from 'twenty-shared/utils';
 import { TRIGGER_STEP_ID } from 'twenty-shared/workflow';
 import { IconCopyPlus, IconPencil, IconTrash } from 'twenty-ui/display';
 import { Button } from 'twenty-ui/input';
@@ -35,13 +36,15 @@ export const WorkflowStepFooter = ({
     openWorkflowTriggerTypeInCommandMenu,
   } = useWorkflowCommandMenu();
   const { deleteStep } = useDeleteStep();
+  const shouldPinDeleteButton =
+    !isDefined(additionalActions) || additionalActions.length === 0;
 
   const OptionsDropdown = (
     <Dropdown
       dropdownId={dropdownId}
       data-select-disable
       clickableComponent={
-        <Button title="Options" hotkeys={[getOsControlSymbol(), 'O']} />
+        <Button title={t`Options`} hotkeys={[getOsControlSymbol(), 'O']} />
       }
       dropdownPlacement="top-end"
       dropdownOffset={{ y: parseInt(theme.spacing(2), 10) }}
@@ -77,14 +80,16 @@ export const WorkflowStepFooter = ({
                   LeftIcon={IconCopyPlus}
                 />
               )}
-              <MenuItem
-                onClick={() => {
-                  closeDropdown(dropdownId);
-                  deleteStep(stepId);
-                }}
-                text={t`Delete node`}
-                LeftIcon={IconTrash}
-              />
+              {!shouldPinDeleteButton && (
+                <MenuItem
+                  onClick={() => {
+                    closeDropdown(dropdownId);
+                    deleteStep(stepId);
+                  }}
+                  text={t`Delete node`}
+                  LeftIcon={IconTrash}
+                />
+              )}
             </SelectableList>
           </DropdownMenuItemsContainer>
         </DropdownContent>
@@ -92,9 +97,25 @@ export const WorkflowStepFooter = ({
     />
   );
 
+  const deleteButton = (
+    <Button
+      title={t`Delete`}
+      onClick={() => {
+        deleteStep(stepId);
+      }}
+      Icon={IconTrash}
+      accent="danger"
+      inverted
+    />
+  );
+
   return (
     <RightDrawerFooter
-      actions={[OptionsDropdown, ...(additionalActions ?? [])]}
+      actions={[
+        OptionsDropdown,
+        ...(additionalActions ?? []),
+        ...(shouldPinDeleteButton ? [deleteButton] : []),
+      ]}
     />
   );
 };

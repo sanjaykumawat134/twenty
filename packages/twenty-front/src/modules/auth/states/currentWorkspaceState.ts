@@ -15,8 +15,11 @@ export type CurrentWorkspace = Pick<
   | 'workspaceMembersCount'
   | 'isPublicInviteLinkEnabled'
   | 'isGoogleAuthEnabled'
+  | 'isGoogleAuthBypassEnabled'
   | 'isMicrosoftAuthEnabled'
+  | 'isMicrosoftAuthBypassEnabled'
   | 'isPasswordAuthEnabled'
+  | 'isPasswordAuthBypassEnabled'
   | 'isCustomDomainEnabled'
   | 'hasValidEnterpriseKey'
   | 'subdomain'
@@ -26,6 +29,7 @@ export type CurrentWorkspace = Pick<
   | 'isTwoFactorAuthenticationEnforced'
   | 'trashRetentionDays'
   | 'routerModel'
+  | 'editableProfileFields'
 > & {
   defaultRole?: Omit<Role, 'workspaceMembers' | 'agents' | 'apiKeys'> | null;
 };

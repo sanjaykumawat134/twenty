@@ -86,7 +86,7 @@ export const useFindManyRecords = <T extends ObjectRecord = ObjectRecord>({
 
   const hasReadPermission = objectPermissions.canReadObjectRecords;
 
-  const { data, loading, error, fetchMore } =
+  const { data, loading, error, fetchMore, refetch } =
     useQuery<RecordGqlOperationFindManyResult>(findManyRecordsQuery, {
       skip: skip || !objectMetadataItem || !hasReadPermission,
       variables: {
@@ -127,5 +127,6 @@ export const useFindManyRecords = <T extends ObjectRecord = ObjectRecord>({
     queryIdentifier,
     hasNextPage,
     pageInfo,
+    refetch,
   };
 };

@@ -1,32 +1,50 @@
-import { BAR_CHART_MARGINS } from '@/page-layout/widgets/graph/graphWidgetBarChart/constants/BarChartMargins';
+import { BAR_CHART_MINIMUM_WIDTH_PER_TICK } from '@/page-layout/widgets/graph/graphWidgetBarChart/constants/BarChartMinimumWidthPerTick';
 import { type BarChartDataItem } from '@/page-layout/widgets/graph/graphWidgetBarChart/types/BarChartDataItem';
-
-const MINIMUM_WIDTH_PER_TICK = 100;
+import { BarChartLayout } from '@/page-layout/widgets/graph/graphWidgetBarChart/types/BarChartLayout';
+import { computeMinHeightPerTick } from '@/page-layout/widgets/graph/graphWidgetBarChart/utils/computeMinHeightPerTick';
+import { getBarChartMargins } from '@/page-layout/widgets/graph/graphWidgetBarChart/utils/getBarChartMargins';
+import { computeChartCategoryTickValues } from '@/page-layout/widgets/graph/utils/computeChartCategoryTickValues';
 
 export const computeBarChartCategoryTickValues = ({
-  width,
+  axisSize,
+  axisFontSize,
   data,
   indexBy,
+  xAxisLabel,
+  yAxisLabel,
+  layout,
 }: {
-  width: number;
+  axisSize: number;
+  axisFontSize: number;
   data: BarChartDataItem[];
   indexBy: string;
+  layout: BarChartLayout;
+  xAxisLabel?: string;
+  yAxisLabel?: string;
 }): (string | number)[] => {
-  if (width === 0 || data.length === 0) return [];
+  if (axisSize === 0 || data.length === 0) {
+    return [];
+  }
 
-  const horizontalMargins = BAR_CHART_MARGINS.left + BAR_CHART_MARGINS.right;
-  const availableWidth = width - horizontalMargins;
-  const numberOfTicks = Math.floor(availableWidth / MINIMUM_WIDTH_PER_TICK);
+  const values = data.map((item) => item[indexBy] as string | number);
 
-  if (numberOfTicks <= 0) return [];
-  if (numberOfTicks === 1) return [data[0][indexBy] as string | number];
-  if (numberOfTicks >= data.length)
-    return data.map((item) => item[indexBy] as string | number);
+  const margins = getBarChartMargins({ xAxisLabel, yAxisLabel, layout });
 
-  const step = (data.length - 1) / (numberOfTicks - 1);
+  const totalMargins =
+    layout === BarChartLayout.VERTICAL
+      ? margins.left + margins.right
+      : margins.top + margins.bottom;
 
-  return Array.from({ length: numberOfTicks }, (_, i) => {
-    const index = Math.min(Math.round(i * step), data.length - 1);
-    return data[index][indexBy] as string | number;
+  const availableAxisSize = axisSize - totalMargins;
+
+  const minimumSizePerTick =
+    layout === BarChartLayout.VERTICAL
+      ? BAR_CHART_MINIMUM_WIDTH_PER_TICK
+      : computeMinHeightPerTick({ axisFontSize });
+
+  return computeChartCategoryTickValues({
+    availableSize: availableAxisSize,
+    minimumSizePerTick,
+    values,
   });
 };

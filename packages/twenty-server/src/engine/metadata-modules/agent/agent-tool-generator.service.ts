@@ -3,13 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { type ToolSet } from 'ai';
 import { Repository } from 'typeorm';
+import { type ActorMetadata } from 'twenty-shared/types';
 
 import { ToolAdapterService } from 'src/engine/core-modules/ai/services/tool-adapter.service';
 import { ToolService } from 'src/engine/core-modules/ai/services/tool.service';
-import { type ActorMetadata } from 'src/engine/metadata-modules/field-metadata/composite-types/actor.composite-type';
+import { SearchArticlesTool } from 'src/engine/core-modules/tool/tools/search-articles-tool/search-articles-tool';
+import { AgentEntity } from 'src/engine/metadata-modules/agent/agent.entity';
+import { type ToolHints } from 'src/engine/metadata-modules/ai-router/types/tool-hints.interface';
 import { PermissionFlagType } from 'src/engine/metadata-modules/permissions/constants/permission-flag-type.constants';
 import { PermissionsService } from 'src/engine/metadata-modules/permissions/permissions.service';
 import { RoleEntity } from 'src/engine/metadata-modules/role/role.entity';
+import { HELPER_AGENT } from 'src/engine/workspace-manager/workspace-sync-metadata/standard-agents/agents/helper-agent';
 import { WorkflowToolWorkspaceService as WorkflowToolService } from 'src/modules/workflow/workflow-tools/services/workflow-tool.workspace-service';
 
 @Injectable()
@@ -19,10 +23,13 @@ export class AgentToolGeneratorService {
   constructor(
     @InjectRepository(RoleEntity)
     private readonly roleRepository: Repository<RoleEntity>,
+    @InjectRepository(AgentEntity)
+    private readonly agentRepository: Repository<AgentEntity>,
     private readonly toolAdapterService: ToolAdapterService,
     private readonly toolService: ToolService,
     private readonly workflowToolService: WorkflowToolService,
     private readonly permissionsService: PermissionsService,
+    private readonly searchArticlesTool: SearchArticlesTool,
   ) {}
 
   async generateToolsForAgent(
@@ -30,10 +37,20 @@ export class AgentToolGeneratorService {
     workspaceId: string,
     actorContext?: ActorMetadata,
     roleIds?: string[],
+    userWorkspaceId?: string,
+    toolHints?: ToolHints,
   ): Promise<ToolSet> {
     let tools: ToolSet = {};
 
     try {
+      const agent = await this.agentRepository.findOne({
+        where: { id: agentId },
+      });
+
+      if (agent?.standardId === HELPER_AGENT.standardId) {
+        return this.getHelperAgentTools();
+      }
+
       const actionTools = await this.toolAdapterService.getTools();
 
       tools = { ...actionTools };
@@ -62,6 +79,8 @@ export class AgentToolGeneratorService {
         { intersectionOf: roleIds },
         workspaceId,
         actorContext,
+        userWorkspaceId,
+        toolHints,
       );
 
       tools = { ...tools, ...databaseTools };
@@ -77,6 +96,21 @@ export class AgentToolGeneratorService {
         `Failed to generate tools for agent ${agentId}: ${toolError.message}. Proceeding without tools.`,
       );
     }
+
+    return tools;
+  }
+
+  private getHelperAgentTools(): ToolSet {
+    const tools: ToolSet = {
+      search_articles: {
+        description: this.searchArticlesTool.description,
+        inputSchema: this.searchArticlesTool.inputSchema,
+        execute: async (params) =>
+          this.searchArticlesTool.execute(params.input),
+      },
+    };
+
+    this.logger.log('Generated search_articles tool for Helper agent');
 
     return tools;
   }

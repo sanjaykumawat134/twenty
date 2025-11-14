@@ -8,24 +8,25 @@ import { ApplicationService } from 'src/engine/core-modules/application/applicat
 import { ApplicationVariableEntityModule } from 'src/engine/core-modules/applicationVariable/application-variable.module';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
 import { AgentEntity } from 'src/engine/metadata-modules/agent/agent.entity';
-import { AgentModule } from 'src/engine/metadata-modules/agent/agent.module';
 import { CronTriggerModule } from 'src/engine/metadata-modules/cron-trigger/cron-trigger.module';
 import { DataSourceModule } from 'src/engine/metadata-modules/data-source/data-source.module';
 import { DatabaseEventTriggerModule } from 'src/engine/metadata-modules/database-event-trigger/database-event-trigger.module';
 import { WorkspaceManyOrAllFlatEntityMapsCacheModule } from 'src/engine/metadata-modules/flat-entity/services/workspace-many-or-all-flat-entity-maps-cache.module';
 import { ObjectMetadataModule } from 'src/engine/metadata-modules/object-metadata/object-metadata.module';
+import { PermissionsModule } from 'src/engine/metadata-modules/permissions/permissions.module';
 import { RouteTriggerModule } from 'src/engine/metadata-modules/route-trigger/route-trigger.module';
 import { ServerlessFunctionLayerModule } from 'src/engine/metadata-modules/serverless-function-layer/serverless-function-layer.module';
 import { ServerlessFunctionModule } from 'src/engine/metadata-modules/serverless-function/serverless-function.module';
 import { WorkspaceMigrationV2Module } from 'src/engine/workspace-manager/workspace-migration-v2/workspace-migration-v2.module';
+import { FieldMetadataModule } from 'src/engine/metadata-modules/field-metadata/field-metadata.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ApplicationEntity, AgentEntity, WorkspaceEntity]),
     WorkspaceManyOrAllFlatEntityMapsCacheModule,
     ObjectMetadataModule,
+    FieldMetadataModule,
     DataSourceModule,
-    AgentModule,
     ApplicationVariableEntityModule,
     ServerlessFunctionLayerModule,
     ServerlessFunctionModule,
@@ -33,7 +34,9 @@ import { WorkspaceMigrationV2Module } from 'src/engine/workspace-manager/workspa
     CronTriggerModule,
     RouteTriggerModule,
     WorkspaceMigrationV2Module,
+    PermissionsModule,
   ],
+  exports: [ApplicationService],
   providers: [ApplicationResolver, ApplicationService, ApplicationSyncService],
 })
 export class ApplicationModule {}

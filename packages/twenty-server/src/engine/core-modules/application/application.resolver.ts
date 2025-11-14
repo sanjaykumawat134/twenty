@@ -12,9 +12,14 @@ import { FeatureFlagKey } from 'src/engine/core-modules/feature-flag/enums/featu
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { RequireFeatureFlag } from 'src/engine/guards/feature-flag.guard';
+import { SettingsPermissionGuard } from 'src/engine/guards/settings-permission.guard';
 import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
+import { PermissionFlagType } from 'src/engine/metadata-modules/permissions/constants/permission-flag-type.constants';
 
-@UseGuards(WorkspaceAuthGuard)
+@UseGuards(
+  WorkspaceAuthGuard,
+  SettingsPermissionGuard(PermissionFlagType.APPLICATIONS),
+)
 @Resolver()
 @UseFilters(ApplicationExceptionFilter)
 export class ApplicationResolver {
@@ -57,11 +62,11 @@ export class ApplicationResolver {
 
   @Mutation(() => Boolean)
   async deleteApplication(
-    @Args() { packageJson }: DeleteApplicationInput,
+    @Args() { universalIdentifier }: DeleteApplicationInput,
     @AuthWorkspace() { id: workspaceId }: WorkspaceEntity,
   ) {
     await this.applicationSyncService.deleteApplication({
-      applicationUniversalIdentifier: packageJson.universalIdentifier,
+      applicationUniversalIdentifier: universalIdentifier,
       workspaceId,
     });
 
