@@ -32,7 +32,7 @@ RUN echo fs.inotify.max_user_watches=524288 >> /etc/sysctl.conf && \
     echo fs.inotify.max_user_instances=8192 >> /etc/sysctl.conf && \
     sysctl -p
     
-RUN npx nx run twenty-server:build
+# RUN npx nx run twenty-server:build
 
 RUN yarn workspaces focus --production twenty-emails twenty-shared twenty-server
 
@@ -44,7 +44,9 @@ ARG REACT_APP_SERVER_BASE_URL
 COPY ./packages/twenty-front /app/packages/twenty-front
 COPY ./packages/twenty-ui /app/packages/twenty-ui
 COPY ./packages/twenty-shared /app/packages/twenty-shared
-RUN npx nx build twenty-front
+COPY ./packages/twenty-front/build /app/packages/twenty-server/dist/front
+
+# RUN npx nx build twenty-front
 
 
 # Final stage: Run the application
@@ -69,8 +71,11 @@ ENV APP_VERSION=$APP_VERSION
 
 # Copy built applications from previous stages
 COPY --chown=1000 --from=twenty-server-build /app /app
+# COPY --chown=1000 --from=twenty-server-build ./packages/twenty-server /app/packages/twenty-server
 COPY --chown=1000 --from=twenty-server-build /app/packages/twenty-server /app/packages/twenty-server
-COPY --chown=1000 --from=twenty-front-build /app/packages/twenty-front/build /app/packages/twenty-server/dist/front
+COPY ./packages/twenty-front/build /app/packages/twenty-server/dist/front
+
+# COPY --chown=1000 --from=twenty-front-build ./packages/twenty-front/build /app/packages/twenty-server/dist/front
 
 # Set metadata and labels
 LABEL org.opencontainers.image.source=https://github.com/twentyhq/twenty

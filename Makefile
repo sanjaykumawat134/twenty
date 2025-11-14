@@ -5,24 +5,24 @@ ensure-docker-network:
 
 postgres-on-docker: ensure-docker-network
 	docker run -d --network $(DOCKER_NETWORK) \
-	--name twenty_pg \
+	--name twenty_pg_2 \
 	-e POSTGRES_USER=postgres \
 	-e POSTGRES_PASSWORD=postgres \
 	-e ALLOW_NOSSL=true \
-	-v twenty_db_data:/var/lib/postgresql/data \
+	-v twenty_db_data_2:/var/lib/postgresql/data \
 	-p 5432:5432 \
 	postgres:16
 	@echo "Waiting for PostgreSQL to be ready..."
-	@until docker exec twenty_pg psql -U postgres -d postgres \
+	@until docker exec twenty_pg_2 psql -U postgres -d postgres \
 		-c 'SELECT pg_is_in_recovery();' 2>/dev/null | grep -q 'f'; do \
 		sleep 1; \
 	done
-	docker exec twenty_pg psql -U postgres -d postgres \
+	docker exec twenty_pg_2 psql -U postgres -d postgres \
 		-c "CREATE DATABASE \"default\" WITH OWNER postgres;" \
 		-c "CREATE DATABASE \"test\" WITH OWNER postgres;"
 
 redis-on-docker: ensure-docker-network
-	docker run -d --network $(DOCKER_NETWORK) --name twenty_redis -p 6379:6379 redis/redis-stack-server:latest
+	docker run -d --network $(DOCKER_NETWORK) --name twenty_redis_2 -p 6379:6379 redis/redis-stack-server:latest
 
 clickhouse-on-docker: ensure-docker-network
 	docker run -d --network $(DOCKER_NETWORK) --name twenty_clickhouse -p 8123:8123 -p 9000:9000 -e CLICKHOUSE_PASSWORD=devPassword clickhouse/clickhouse-server:latest \
